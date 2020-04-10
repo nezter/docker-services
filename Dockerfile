@@ -33,6 +33,7 @@ RUN apk --no-cache upgrade \
     && rm -rf /go || true \
     && apk del alpine-sdk go git gnupg \
     && rm -rf /tmp/* /var/cache/apk/* /var/lib/apk/lists/* \
+    && mkdir /config \
     && echo "null" >> /config/.rclone.conf
 
 COPY rootfs/ /
