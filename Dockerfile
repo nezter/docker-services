@@ -6,8 +6,8 @@ ARG OVERLAY_ARCH="amd64"
 ENV DEBUG="false" \
     GOPATH="/go" \
     AccessFolder="/mnt" \
-    RemotePath="mediaefs:" \
-    MountPoint="/mnt/mediaefs" \
+    RemotePath="gdrive:" \
+    MountPoint="/mnt/gdrive" \
     ConfigDir="/config" \
     ConfigName=".rclone.conf" \
     MountCommands="--allow-other --allow-non-empty" \
@@ -27,9 +27,13 @@ RUN apk --no-cache upgrade \
     && echo "Download and compile rclone" \
     && go get -u -v github.com/rclone/rclone \
     && cp /go/bin/rclone /usr/sbin/ \
+    && echo "Download and compile rclone web GUI" \
+    && go get https://github.com/retifrav/ \
+    && cp /go/bin/retifrav /usr/bin/rclone/web/GUI/ \ 
     && rm -rf /go || true \
     && apk del alpine-sdk go git gnupg \
     && rm -rf /tmp/* /var/cache/apk/* /var/lib/apk/lists/*
+    && echo "null" >> /config/.rclone.conf
 
 COPY rootfs/ /
 
